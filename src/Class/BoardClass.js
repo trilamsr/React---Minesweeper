@@ -1,6 +1,5 @@
 import CellClass from './CellClass';
-import { gridIterator, swapGrid, neighborCoordinate } from './Auxiliary';
-
+import { gridIterator, swapGrid, neighborCoordinate } from './Utilities';
 
 class BoardClass {
     constructor (width = 10, height = 10, mines = 10) {
@@ -10,6 +9,13 @@ class BoardClass {
         this.mines = mines;
         this.goodFrag =  0;
         this.setGame();
+    }
+
+    // Set game create grid add mines sequentially, shuffle the board, then set neighbors' values
+    setGame() {
+        const {width, height, mines} = this
+        this.makeGrid(height, width).addMine(mines).shuffle().setNeighbor()
+        return this
     }
 
     makeGrid(height, width) {
@@ -58,13 +64,15 @@ class BoardClass {
         }
         return this;
     }
-        
+    
+    // Check for out of bound condition. So (-1, 0) is out of bound
     inbound(i, j) {
         const height = 0 <= i && i < this.height;
         const width = 0 <= j && j < this.width;
         return height && width;
     }
     
+    // Flip cell action
     open(i, j) {
         let curCell = this.board[i][j];
         if (curCell.isMine || curCell.opened) return 
@@ -79,6 +87,7 @@ class BoardClass {
         }
     }
 
+    // Flagging action
     flag(i, j) {
         const cell = this.board[i][j]
         if (cell.isMine) {
@@ -89,33 +98,33 @@ class BoardClass {
         cell.flagged = !cell.flagged;
     }
 
+    // To display flags left to plant
     get availableFlags() {
         return this.mines - this.usedFlag
     }
 
+    // Check win condition
     validateVictory() {
         const winCondition = this.goodFrag === this.mines;
         if (winCondition) this.flipBoard();
         return winCondition;
     }
 
+    // Check lost condition
     validateLost(row, col) {
         const cell = this.board[row][col]
         if (cell.isMine) this.flipBoard();
         return cell.isMine;
     }
 
+    // Turn everything over when game end
     flipBoard() {
         for (let [i, j] of gridIterator(this.board)) {
             this.board[i][j].opened = true;
         }
     }
 
-    setGame() {
-        const {width, height, mines} = this
-        this.makeGrid(height, width).addMine(mines).shuffle().setNeighbor()
-        return this
-    }
+
 }
 
 export default BoardClass

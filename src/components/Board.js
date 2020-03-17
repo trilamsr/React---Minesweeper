@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import BoardClass from './BoardClass';
-import CellComponent from './CellComponent';
+import BoardClass from '../Class/BoardClass';
+import CellComponent from './Cell';
 import settings from '../settings.json';
 
-
-// func: victory, lost, status, difficulty, flag_delta
 
 class Board extends Component {
     constructor(props) {
@@ -12,22 +10,20 @@ class Board extends Component {
         this.restart();
     }
 
+    // Check to refresh board upon player pressing restart
     componentDidUpdate = (preProp, preState) => {
-        if (this.props.status === settings.STATUS.ENDED && preProp.status === settings.STATUS.RUNNING){
-            this.board.flipBoard();
-            this.forceUpdate();
-        }
         if (preProp.gamecount === this.props.gamecount) return;
         this.restart();
     }
 
+    // Welcome to new board
     restart = () => {
         const {width, height, mines} = this.props.difficulty
         this.board = new BoardClass(width, height, mines)
         this.forceUpdate()
     }
 
-
+    // Closure wrapper function. Passed to cell component for handling clicks
     action = (isOpen, cell) => {
         const {i, j} = cell
         return () => {
@@ -40,6 +36,7 @@ class Board extends Component {
         }
     }
     
+    // React level to flip a cell. Separate class abstraction
     open = (row, col) => {
         if(this.props.status === settings.STATUS.BEGIN) {
             this.props.start();
@@ -49,6 +46,7 @@ class Board extends Component {
         if (this.board.validateLost(row, col)) this.props.lost();
     }
 
+    // React level to flag a cell. Separate class abstraction
     flag = (row, col) => {   
         if(this.props.status === settings.STATUS.BEGIN) {
             this.props.start();
@@ -58,6 +56,7 @@ class Board extends Component {
         if (this.board.validateVictory()) this.props.victory();
     }
 
+    // Map is to render display
     map = (grid) => {
         const mapCell = (cell, ind) => {
             let cellComponent = CellComponent(cell, this.action, ind)

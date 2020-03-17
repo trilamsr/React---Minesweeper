@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { STATUS } from '../settings.json';
-import { transformTime } from './Auxiliary';
+import { transformTime } from '../Class/Utilities';
 
 
 class DashBoard extends Component {
@@ -11,6 +11,7 @@ class DashBoard extends Component {
         }
     }
 
+    // Start the clock
     runClock = () => {
         const status = this.props.status
         if (status === STATUS.RUNNING) {
@@ -21,20 +22,23 @@ class DashBoard extends Component {
         }
     }
 
+    // Stop the clock
     stopClock = () => {
         clearInterval(this.intervalKey);
     }
 
-    // Memory Leak Case
+    // In case of memory leak
     componentWillUnmount = () => {
         clearInterval(this.intervalKey);
     }
 
+    // Reset the clock
     clearClock = () => {
         this.stopClock()
         this.setState({time: 0})
     }
 
+    // Receive instruction from parent component about status of the game and perform action accordingly
     componentDidUpdate(preProp, preState) {
         if (preProp.status === this.props.status) return;
         const status = this.props.status

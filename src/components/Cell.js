@@ -1,12 +1,11 @@
 import React from 'react';
 
-
-
-const uselessClick = (e, func)=> {
+// To ensure left and right clicking does not open menu in browser
+const uselessClick = e=> {
     e.preventDefault();
-    return func
 }
 
+// If cell is already open. Do nothing when clicked
 const openCase = (cell, ind) => {
     const string = cell.toString();
     return (
@@ -19,20 +18,23 @@ const openCase = (cell, ind) => {
     )
 }
 
+// Handling click when cell is not open
 const closeCase = (cell, action, ind) => {
     return (<div
         key={ind} 
         className="cell"
-        onClick={action(true, cell)}
+        onClick={
+            action(true, cell)
+        }
         onContextMenu={(e) => {
             e.preventDefault()
             action(false, cell)()
         }}
-    >
-        {cell.toString()}
+    >{cell.toString()}
     </div>)
 }
 
+// Stateless function React component for cell
 const CellComponent = (cell, action, ind) => {
     if (cell.opened) return openCase(cell, ind)
     return closeCase(cell, action, ind)

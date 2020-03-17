@@ -2,7 +2,7 @@ import Board from './Board';
 import DashBoard from './DashBoard'
 import SettingForm from './SettingForm'
 import React, { Component } from 'react'
-import { difficultyValidation } from './Auxiliary'
+import { difficultyValidation } from '../Class/Utilities';
 import settings from '../settings.json'
 
 class Minesweeper extends Component {
@@ -30,28 +30,34 @@ class Minesweeper extends Component {
         }
     }
 
+    // Changing number of available flags
     changeFlag = (num) => {
         this.setState({FLAG: num})
     }
     
+    // Start the game
     start = () => {
         this.setState({STATUS: settings.STATUS.RUNNING})
     }
     
+    // Game finished when victory/lost
     end = () => {
         this.setState({STATUS: settings.STATUS.ENDED})
     }
 
+    // Change status to victory
     victory = () => {
         this.end()
         this.setState({STATUS: settings.STATUS.VICTORY})
     }
     
+    // Change status to lost
     lost = () => {
         this.end()
         this.setState({STATUS: settings.STATUS.LOST})
     }
 
+    // Rendering children components
     render() {
         const {STATUS, GAMECOUNT, FLAG, DIFFICULTY} = this.state
         const {victory, lost, flag_delta, handleFormChange, changeFlag, start} = this
