@@ -11,9 +11,9 @@
             "mines": 40
         },
         "HARD": {
-            "width": 25,
-            "height": 25,
-            "mines": 150
+            "width": 28,
+            "height": 20,
+            "mines": 125
         }
     },
     "STATUS": {

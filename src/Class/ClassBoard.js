@@ -1,8 +1,8 @@
-import CellClass from './CellClass';
-import { gridIterator, swapGrid, neighborCoordinate } from './Utilities';
+import CellClass from './ClassCell';
+import { gridIterator, swapGrid, neighborCoordinate } from '../Scripts/Utilities';
 import { STATUS } from '../settings.json';
 
-class BoardClass {
+class Board {
     constructor (width = 10, height = 10, mines = 10) {
         this.width = width;
         this.height = height;
@@ -121,4 +121,4 @@ class BoardClass {
     }
 }
 
-export default BoardClass
+export default Board

@@ -2,7 +2,7 @@ import Board from './Board';
 import DashBoard from './DashBoard'
 import SettingForm from './SettingForm'
 import React, { Component } from 'react'
-import { difficultyValidation } from '../Class/Utilities';
+import { difficultyValidation } from '../Scripts/Utilities';
 import settings, { DIFFICULTY, STATUS } from '../settings.json'
 
 class Minesweeper extends Component {

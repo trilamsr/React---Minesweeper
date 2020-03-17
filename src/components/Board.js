@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import BoardClass from '../Class/BoardClass';
+import React, { Component } from 'react';
+import BoardClass from '../Class/ClassBoard';
 import CellComponent from './Cell';
 import { STATUS } from '../settings.json';
 
@@ -23,7 +23,7 @@ class Board extends Component {
         this.forceUpdate()
     }
 
-    // Closure wrapper function. Passed to cell component for handling clicks
+    // Closure wrapper function. Passed to cell component for handling clicks. Reason for closure is to prevent default
     action = (isOpen, cell) => {
         const {i, j} = cell
         return () => {

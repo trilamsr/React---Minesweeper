@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { STATUS } from '../settings.json';
-import { transformTime } from '../Class/Utilities';
+import { transformTime } from '../Scripts/Utilities';
 
 
 class DashBoard extends Component {

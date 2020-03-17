@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class SettingForm extends Component {
     // Handling changing difficulty

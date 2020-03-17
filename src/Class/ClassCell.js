@@ -1,4 +1,4 @@
-class CellClass {
+class Cell {
     constructor () {
         this.neighborMine = 0;
         this.isMine = false;
@@ -22,4 +22,4 @@ class CellClass {
     }
 }
 
-export default CellClass
+export default Cell

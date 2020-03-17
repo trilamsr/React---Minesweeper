@@ -1,5 +1,5 @@
 import React from 'react';
-import Minesweeper from './components/Minesweeper';
+import Minesweeper from './Components/Minesweeper';
 
 function App() {
     return (
