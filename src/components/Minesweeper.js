@@ -3,7 +3,7 @@ import DashBoard from './DashBoard'
 import SettingForm from './SettingForm'
 import React, { Component } from 'react'
 import { difficultyValidation } from '../Class/Utilities';
-import settings from '../settings.json'
+import settings, { DIFFICULTY, STATUS } from '../settings.json'
 
 class Minesweeper extends Component {
     constructor(props) {
@@ -11,8 +11,8 @@ class Minesweeper extends Component {
         this.state = {
             FLAG: 0,
             GAMECOUNT: 0,
-            STATUS: settings.STATUS.BEGIN,
-            DIFFICULTY: settings.DIFFICULTY.EASY,
+            STATUS: STATUS.BEGIN,
+            DIFFICULTY: DIFFICULTY.EASY,
         }
         this.baseState = this.state
     }
@@ -22,7 +22,7 @@ class Minesweeper extends Component {
         const val = v.toUpperCase();
         if (difficultyValidation(key, val)) {
             this.setState({
-                STATUS: settings.STATUS.BEGIN,
+                STATUS: STATUS.BEGIN,
                 FLAG: settings[key][val].mines,
                 DIFFICULTY: settings[key][val],
                 GAMECOUNT: this.state.GAMECOUNT + 1,
@@ -35,32 +35,16 @@ class Minesweeper extends Component {
         this.setState({FLAG: num})
     }
     
-    // Start the game
-    start = () => {
-        this.setState({STATUS: settings.STATUS.RUNNING})
-    }
-    
-    // Game finished when victory/lost
-    end = () => {
-        this.setState({STATUS: settings.STATUS.ENDED})
-    }
-
-    // Change status to victory
-    victory = () => {
-        this.end()
-        this.setState({STATUS: settings.STATUS.VICTORY})
-    }
-    
-    // Change status to lost
-    lost = () => {
-        this.end()
-        this.setState({STATUS: settings.STATUS.LOST})
+    //Setting status of the game
+    // Can either be begin, running, victory, or lost
+    setStatus = (condition) => {
+        this.setState({STATUS: condition})
     }
 
     // Rendering children components
     render() {
         const {STATUS, GAMECOUNT, FLAG, DIFFICULTY} = this.state
-        const {victory, lost, flag_delta, handleFormChange, changeFlag, start} = this
+        const {setStatus, handleFormChange, changeFlag} = this
         return (
             <div className="minesweeper">
                 <DashBoard
@@ -69,14 +53,11 @@ class Minesweeper extends Component {
                     gameCount={GAMECOUNT}
                 />
                 <Board 
-                    lost={lost} 
-                    start= {start}
                     status={STATUS}
-                    victory={victory}
+                    setStatus= {setStatus}
                     gamecount={GAMECOUNT}
                     changeFlag={changeFlag}
                     difficulty={DIFFICULTY}
-                    flag_delta ={flag_delta}
                 />
                 <SettingForm
                     status={STATUS}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-// To ensure left and right clicking does not open menu in browser
+// To ensure left and right clicking does not have side effects
 const uselessClick = e=> {
     e.preventDefault();
 }

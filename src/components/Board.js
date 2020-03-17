@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import BoardClass from '../Class/BoardClass';
 import CellComponent from './Cell';
-import settings from '../settings.json';
+import { STATUS } from '../settings.json';
 
 
 class Board extends Component {
@@ -38,25 +38,31 @@ class Board extends Component {
     
     // React level to flip a cell. Separate class abstraction
     open = (row, col) => {
-        if(this.props.status === settings.STATUS.BEGIN) {
-            this.props.start();
+        if(this.props.status === STATUS.BEGIN) {
+            this.props.setStatus(STATUS.RUNNING)
         }
-        this.board.open(row, col)
+        this.board.open(row, col);
         this.props.changeFlag(this.board.availableFlags);
-        if (this.board.validateLost(row, col)) this.props.lost();
+        this.setStatus(true, row, col);
     }
 
     // React level to flag a cell. Separate class abstraction
     flag = (row, col) => {   
-        if(this.props.status === settings.STATUS.BEGIN) {
-            this.props.start();
+        if(this.props.status === STATUS.BEGIN) {
+            this.props.setStatus(STATUS.RUNNING);
         } 
-        this.board.flag(row, col)
+        this.board.flag(row, col);
         this.props.changeFlag(this.board.availableFlags);
-        if (this.board.validateVictory()) this.props.victory();
+        this.setStatus(false, row, col);
+    }
+    
+    // Check if the game has ended in win/lost after every move
+    setStatus = (isOpen, row, col) => {
+        const gameStatus = this.board.gameStatus(isOpen, row, col)
+        this.props.setStatus(gameStatus);
     }
 
-    // Map is to render display
+    // Map is to render JSX
     map = (grid) => {
         const mapCell = (cell, ind) => {
             let cellComponent = CellComponent(cell, this.action, ind)
@@ -68,13 +74,12 @@ class Board extends Component {
         }
         return grid.map(mapRow)
     }
-
     
     render () {
-        const mapping = this.map(this.board.board)
+        const JSX = this.map(this.board.board)
         return (
             <div className="body">
-                {mapping}
+                {JSX}
             </div>
         )
     }

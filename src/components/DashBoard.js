@@ -58,7 +58,7 @@ class DashBoard extends Component {
                     Flags: {this.props.remainingFlags||0}
                 </div>
                 <div>
-                    Game Passed: {this.props.gameCount||0}
+                    Current Game: {this.props.gameCount||0}
                 </div>
                 <div>
                     Time: {transformTime(this.state.time)}

@@ -1,5 +1,6 @@
 import CellClass from './CellClass';
 import { gridIterator, swapGrid, neighborCoordinate } from './Utilities';
+import { STATUS } from '../settings.json';
 
 class BoardClass {
     constructor (width = 10, height = 10, mines = 10) {
@@ -9,6 +10,10 @@ class BoardClass {
         this.mines = mines;
         this.goodFrag =  0;
         this.setGame();
+    }
+    // To display flags left to plant
+    get availableFlags() {
+        return this.mines - this.usedFlag
     }
 
     // Set game create grid add mines sequentially, shuffle the board, then set neighbors' values
@@ -72,7 +77,7 @@ class BoardClass {
         return height && width;
     }
     
-    // Flip cell action
+    // Flip cell action using dfs
     open(i, j) {
         let curCell = this.board[i][j];
         if (curCell.isMine || curCell.opened) return 
@@ -98,23 +103,14 @@ class BoardClass {
         cell.flagged = !cell.flagged;
     }
 
-    // To display flags left to plant
-    get availableFlags() {
-        return this.mines - this.usedFlag
-    }
-
-    // Check win condition
-    validateVictory() {
-        const winCondition = this.goodFrag === this.mines;
-        if (winCondition) this.flipBoard();
-        return winCondition;
-    }
-
-    // Check lost condition
-    validateLost(row, col) {
-        const cell = this.board[row][col]
-        if (cell.isMine) this.flipBoard();
-        return cell.isMine;
+    // Check win-lost condition
+    gameStatus (isOpen, row, col) {
+        const cell = this.board[row][col];
+        const lostCondition = cell.isMine && isOpen;
+        const winCondition = this.goodFrag === this.mines
+        if (winCondition || lostCondition) this.flipBoard ();
+        return lostCondition ? STATUS.LOST :
+            winCondition ? STATUS.VICTORY : STATUS.RUNNING
     }
 
     // Turn everything over when game end
@@ -123,8 +119,6 @@ class BoardClass {
             this.board[i][j].opened = true;
         }
     }
-
-
 }
 
 export default BoardClass

@@ -7,11 +7,6 @@ class SettingForm extends Component {
         this.props.handleChange(this.props.name, e.target.difficulty.value);
     }
 
-    // Default the site to easy mode
-    componentDidMount () {
-        this.props.handleChange(this.props.name, "Easy");
-    }
-
     // JSX for forms
     render () {
         const {status, name} = this.props
