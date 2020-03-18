@@ -2,7 +2,6 @@ import Board from './Board';
 import DashBoard from './DashBoard'
 import SettingForm from './SettingForm'
 import React, { Component } from 'react'
-import { difficultyValidation } from '../Scripts/Utilities';
 import settings, { DIFFICULTY, STATUS } from '../settings.json'
 
 class Minesweeper extends Component {
@@ -17,17 +16,13 @@ class Minesweeper extends Component {
         this.baseState = this.state
     }
 
-    handleFormChange = (k, v) => {
-        const key = k.toUpperCase();
-        const val = v.toUpperCase();
-        if (difficultyValidation(key, val)) {
-            this.setState({
-                STATUS: STATUS.BEGIN,
-                FLAG: settings[key][val].mines,
-                DIFFICULTY: settings[key][val],
-                GAMECOUNT: this.state.GAMECOUNT + 1,
-            })
-        }
+    handleFormChange = (key, val) => {
+        this.setState({
+            STATUS: STATUS.BEGIN,
+            FLAG: settings[key][val].mines,
+            DIFFICULTY: settings[key][val],
+            GAMECOUNT: this.state.GAMECOUNT + 1,
+        })
     }
 
     // Changing number of available flags
@@ -61,8 +56,8 @@ class Minesweeper extends Component {
                 />
                 <SettingForm
                     status={STATUS}
-                    name="Difficulty"
-                    handleChange={handleFormChange}
+                    name="DIFFICULTY"
+                    handleFormChange={handleFormChange}
                 />
             </div>
         )

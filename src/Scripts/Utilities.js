@@ -1,10 +1,3 @@
-// Back-end validation for form difficulty selection
-function difficultyValidation(key, val) {
-    const check_k = key === "DIFFICULTY"
-    const check_v = val === "EASY" || val === "MEDIUM" || val === "HARD"
-    return check_k && check_v
-}
-
 // Maximum time to display is 100 minutes or 99:59. Then reset
 function transformTime (milisec) {
     const sec = Math.floor(milisec/1000)
@@ -42,5 +35,5 @@ function swapGrid(grid, i, j, row, col) {
 }
 
 module.exports = {
-    difficultyValidation, transformTime, gridIterator, swapGrid, neighborCoordinate
+    transformTime, gridIterator, swapGrid, neighborCoordinate
 }

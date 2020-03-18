@@ -1,7 +1,7 @@
 import React from 'react';
 
 // To ensure left and right clicking does not have side effects
-const uselessClick = e=> {
+const uselessClick = e => {
     e.preventDefault();
 }
 
