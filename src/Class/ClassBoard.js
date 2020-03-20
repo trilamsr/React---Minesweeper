@@ -8,7 +8,7 @@ class Board {
         this.height = height;
         this.usedFlag = 0;
         this.mines = mines;
-        this.goodFrag =  0;
+        this.goodFlag =  0;
         this.setGame();
     }
     // To display flags left to plant
@@ -96,7 +96,7 @@ class Board {
     flag(i, j) {
         const cell = this.board[i][j]
         if (cell.isMine) {
-            this.goodFrag = cell.flagged ? this.goodFrag - 1 : this.goodFrag + 1;
+            this.goodFlag = cell.flagged ? this.goodFlag - 1 : this.goodFlag + 1;
         }
         if (!cell.flagged && this.availableFlags === 0) return;
         this.usedFlag = cell.flagged ? this.usedFlag - 1 : this.usedFlag + 1
@@ -107,7 +107,7 @@ class Board {
     gameStatus (isOpen, row, col) {
         const cell = this.board[row][col];
         const lostCondition = cell.isMine && isOpen;
-        const winCondition = this.goodFrag === this.mines
+        const winCondition = this.goodFlag === this.mines
         if (winCondition || lostCondition) this.flipBoard ();
         return lostCondition ? STATUS.LOST :
             winCondition ? STATUS.VICTORY : STATUS.RUNNING
