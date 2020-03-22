@@ -26,6 +26,7 @@ class SettingForm extends Component {
                     </div>
                     <input type="submit" value="Restart" className="button"/>
                 </form>
+                <div>Win by flagging all the mines only</div>
             </div>
         )
     }
